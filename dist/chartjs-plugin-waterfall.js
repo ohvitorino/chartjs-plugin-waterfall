@@ -217,6 +217,23 @@ var drawOnCanvas = function drawOnCanvas(context, options, currentDatapointValue
     context.fillText('BR: ' + currentStackBase.toFixed(0), currentDatapointValues.stackRightXPos, currentStackBase);
   }
 
+  var type = currentDatapointValues.options.type || options.type;
+  if (type === 'line') {
+    var lineColor = currentDatapointValues.options.lineColor || options.lineColor || '#000';
+    var lineWidth = currentDatapointValues.options.lineWidth || options.lineWidth || 1;
+
+    context.beginPath();
+    context.strokeStyle = lineColor;
+    context.lineWidth = lineWidth;
+
+    context.moveTo(currentDatapointValues.stackRightXPos, currentStackTopYPos);
+    context.lineTo(nextDatapointValues.stackLeftXPos, nextStackTopYPos);
+
+    context.stroke();
+
+    return;
+  }
+
   // Makes sure that each step line is consistent
   var yStart = currentStackTopYPos > nextStackTopYPos ? currentStackTopYPos : nextStackTopYPos;
   var yEnd = currentStackBase > nextStackBase ? currentStackBase : nextStackBase;
