@@ -39,6 +39,23 @@ const drawOnCanvas = (context, options, currentDatapointValues, nextDatapointVal
     context.fillText(`BR: ${currentStackBase.toFixed(0)}`, currentDatapointValues.stackRightXPos, currentStackBase);
   }
 
+  const type = currentDatapointValues.options.type || options.type;
+  if (type === 'line') {
+    const lineColor = currentDatapointValues.options.lineColor || options.lineColor || '#000';
+    const lineWidth = currentDatapointValues.options.lineWidth || options.lineWidth || 1;
+
+    context.beginPath();
+    context.strokeStyle = lineColor;
+    context.lineWidth = lineWidth;
+
+    context.moveTo(currentDatapointValues.stackRightXPos, currentStackTopYPos);
+    context.lineTo(nextDatapointValues.stackLeftXPos, nextStackTopYPos);
+
+    context.stroke();
+
+    return;
+  }
+
   // Makes sure that each step line is consistent
   const yStart = currentStackTopYPos > nextStackTopYPos ? currentStackTopYPos : nextStackTopYPos;
   const yEnd = currentStackBase > nextStackBase ? currentStackBase : nextStackBase;
